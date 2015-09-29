@@ -141,6 +141,29 @@ void AddMenu()
 	AddMenu.Run();
 }
 
+class ComputeArea : public unary_function<CFigure, double>
+{
+public:
+	double operator() ( const CFigure& fig )
+	{
+		return fig.Area();
+	}
+};
+
+void AccumulateArea()
+{
+	vector<double> area_vector;
+
+	transform( Rect_List.begin(), Rect_List.end(),
+				back_inserter( area_vector ), ComputeArea() );
+	transform( Tria_List.begin(), Tria_List.end(),
+				back_inserter( area_vector ), ComputeArea() );
+	transform( Circ_List.begin(), Circ_List.end(),
+				back_inserter( area_vector ), ComputeArea() );
+	cout << "Accumulate area : " << accumulate(area_vector.begin(), area_vector.end(), 0.0 ) << endl;
+}
+
+
 static vector<CRectangle>::iterator iter;
 
 void FigurePrint()
@@ -206,6 +229,7 @@ int main()
 	MyMenu.AddItem( 'l', "List all", ListAll );
 	MyMenu.AddItem( 's', "Show big", ShowBig );
 	MyMenu.AddItem( 'a', "Add new item",AddMenu );
+	MyMenu.AddItem( 'c', "Accumulate Area", AccumulateArea );
 	MyMenu.AddItem( 'm', "Maintain Rects",MaintainRect );
 	MyMenu.AddItem( 'w', "Write to files", FileWrite );
 
