@@ -71,36 +71,38 @@ void FileWrite()
 	cout << "Files written.\n";
 }
 
-
-void ListAll()
+class AreaComp
 {
-	for( vector<CRectangle>::iterator r_iter = Rect_List.begin();
-	         r_iter < Rect_List.end(); ++r_iter )
-		cout << *r_iter << endl;
+public:
+	AreaComp( double l ) : limit( l ) { }
+	bool operator() ( const CFigure& fig ) const {  return fig.Area() < limit; }
 
-	for( vector<CTriangle>::iterator t_iter = Tria_List.begin();
-			t_iter < Tria_List.end(); ++t_iter )
-		cout << *t_iter << endl;
-
-	for( vector<CCircle>::iterator c_iter = Circ_List.begin();
-			c_iter < Circ_List.end(); ++c_iter )
-			cout << *c_iter << endl;
-}
+private:
+	double limit;
+};
 
 void ShowBig()
 {
-	for( vector<CRectangle>::iterator r_iter = Rect_List.begin(); r_iter < Rect_List.end(); ++r_iter )
-		if( r_iter->Area() > 5.0 )
-			cout << *r_iter << endl;
-
-	for( vector<CTriangle>::iterator t_iter = Tria_List.begin(); t_iter < Tria_List.end(); ++t_iter )
-		if( t_iter->Area() > 5.0 )
-			cout << *t_iter << endl;
-
-	for( vector<CCircle>::iterator c_iter = Circ_List.begin(); c_iter < Circ_List.end(); ++c_iter )
-		if( c_iter->Area() > 5.0 )
-			cout << *c_iter << endl;
+	remove_copy_if( Rect_List.begin(), Rect_List.end(),
+		ostream_iterator<CRectangle>( cout, "\n" ),
+			    AreaComp( 5.0 ) );
+	remove_copy_if( Tria_List.begin(), Tria_List.end(),
+		ostream_iterator<CTriangle>( cout, "\n" ),
+			    AreaComp( 5.0 ) );
+	remove_copy_if( Circ_List.begin(), Circ_List.end(),
+		ostream_iterator<CCircle>( cout, "\n" ),
+			    AreaComp( 5.0 ) );
 }
+
+
+
+void ListAll()
+{
+	copy( Rect_List.begin(), Rect_List.end(), ostream_iterator<CRectangle>( cout, "\n" ) );
+	copy( Tria_List.begin(), Tria_List.end(), ostream_iterator<CTriangle>( cout, "\n" ) );
+	copy( Circ_List.begin(), Circ_List.end(), ostream_iterator<CCircle>( cout, "\n" ) );
+}
+
 
 void AddCircle()
 {
