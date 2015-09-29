@@ -54,6 +54,24 @@ void FileRead()
 		cout << "Files read.\n";
 }
 
+void FileWrite()
+{
+	ofstream r_file( RECTANGLE_FILE, ios::trunc );
+	copy( Rect_List.begin(), Rect_List.end(),
+			ostream_iterator<CRectangle>( r_file, "\n" ) );
+
+	ofstream t_file( TRIANGLE_FILE, ios::trunc );
+	copy( Tria_List.begin(), Tria_List.end(),
+			ostream_iterator<CTriangle>( t_file, "\n" ) );
+
+	ofstream c_file( CIRCLE_FILE, ios::trunc );
+	copy( Circ_List.begin(), Circ_List.end(),
+			ostream_iterator<CCircle>( c_file, "\n" ) );
+
+	cout << "Files written.\n";
+}
+
+
 void ListAll()
 {
 	for( vector<CRectangle>::iterator r_iter = Rect_List.begin();
@@ -187,6 +205,7 @@ int main()
 	MyMenu.AddItem( 's', "Show big", ShowBig );
 	MyMenu.AddItem( 'a', "Add new item",AddMenu );
 	MyMenu.AddItem( 'm', "Maintain Rects",MaintainRect );
+	MyMenu.AddItem( 'w', "Write to files", FileWrite );
 
 	MyMenu.AddItem( ' ', "", MenuSeparator );
 	MyMenu.AddItem( 'x', "Exit", MenuExit );
