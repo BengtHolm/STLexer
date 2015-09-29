@@ -34,31 +34,24 @@ vector<CRectangle> Rect_List;
 void FileRead()
 {
 	ifstream r_file( RECTANGLE_FILE );
-	while( !r_file.eof() )
-	{
-		CRectangle rect;
-		r_file >> rect;
-		if( r_file ) Rect_List.push_back( rect );
-	}
-	cout << "Rectangles read.\n";
+
+	copy( istream_iterator<CRectangle>( r_file ),
+				  istream_iterator<CRectangle>(),
+					  back_inserter( Rect_List ) );
 
 	ifstream t_file( TRIANGLE_FILE );
-	while( !t_file.eof() )
-	{
-		CTriangle tri;
-		t_file >> tri;
-		if( t_file ) Tria_List.push_back( tri );
-	}
-	cout << "Triangles read.\n";
+
+	copy( istream_iterator<CTriangle>( t_file ),
+			      istream_iterator<CTriangle>(),
+					  back_inserter( Tria_List ) );
 
 	ifstream c_file( CIRCLE_FILE );
-	while( !c_file.eof() )
-	{
-		CCircle cir;
-		c_file >> cir;
-		if( c_file ) Circ_List.push_back( cir );
-	}
-	cout << "Circles read.\n";
+
+	copy( istream_iterator<CCircle>( c_file ),
+			      istream_iterator<CCircle>(),
+					  back_inserter( Circ_List ) );
+
+		cout << "Files read.\n";
 }
 
 void ListAll()
